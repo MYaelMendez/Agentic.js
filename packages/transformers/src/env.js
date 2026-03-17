@@ -223,6 +223,10 @@ export const LogLevel = Object.freeze({
  * implements the `match` and `put` functions of the Web Cache API. For more information, see https://developer.mozilla.org/en-US/docs/Web/API/Cache.
  * @property {boolean} useWasmCache Whether to pre-load and cache WASM binaries and the WASM factory (.mjs) for ONNX Runtime.
  * Defaults to `true` when cache is available. This can improve performance and enables offline usage by avoiding repeated downloads.
+ * @property {boolean} useModelCache Whether to cache model weights (IndexedDB or file system). Defaults to `true` when cache is available.
+ * @property {string[]} preferredDeviceOrder Ordered device preference list for execution providers.
+ * Defaults to `['webgpu', 'wasm', 'cpu']` when WebGPU is available, else `['wasm', 'cpu']`.
+ * Invalid or unsupported entries are silently ignored; the runtime falls back to the built-in defaults when nothing valid remains.
  * @property {string} cacheKey The cache key to use for storing models and WASM binaries. Defaults to 'transformers-cache'.
  * @property {boolean} experimental_useCrossOriginStorage Whether to use the Cross-Origin Storage API to cache model files
  * across origins, allowing different sites to share the same cached model weights. Defaults to `false`.
@@ -273,6 +277,8 @@ export const env = {
     customCache: null,
 
     useWasmCache: IS_WEB_CACHE_AVAILABLE || IS_FS_AVAILABLE,
+    useModelCache: IS_WEB_CACHE_AVAILABLE || IS_FS_AVAILABLE,
+    preferredDeviceOrder: IS_WEBGPU_AVAILABLE ? ['webgpu', 'wasm', 'cpu'] : ['wasm', 'cpu'],
     cacheKey: 'transformers-cache',
 
     experimental_useCrossOriginStorage: false,

@@ -150,6 +150,23 @@ if (ORT_SYMBOL in globalThis) {
     defaultDevices = ['wasm'];
 }
 
+/**
+ * Normalize a user-supplied device preference list to the actually supported execution providers.
+ * Entries that are not in {@link supportedDevices} are silently ignored.
+ * Falls back to {@link defaultDevices} when nothing valid remains.
+ * @param {import("../utils/devices.js").DeviceType[]} [order=[]]
+ * @returns {ONNXExecutionProviders[]}
+ */
+export function normalizeDeviceOrder(order = []) {
+    const normalized = order
+        .map((d) => (d === 'auto' ? supportedDevices : [d]))
+        .flat()
+        .filter((d) => supportedDevices.includes(d))
+        .filter((d, i, arr) => arr.indexOf(d) === i)
+        .map((d) => DEVICE_TO_EXECUTION_PROVIDER_MAPPING[d] ?? d);
+    return normalized.length ? normalized : defaultDevices;
+}
+
 // @ts-ignore
 const InferenceSession = ONNX.InferenceSession;
 
@@ -288,8 +305,11 @@ export async function createInferenceSession(buffer_or_path, session_options, se
     const logSeverityLevel = getOnnxLogSeverityLevel(env.logLevel ?? LogLevel.WARNING);
     const load = () =>
         InferenceSession.create(buffer_or_path, {
-            // Set default log severity level, but allow overriding through session options
+            // Set default log severity level, but allow overriding through session options.
+            // Derive executionProviders from env.preferredDeviceOrder by default;
+            // caller can override by supplying session_options.executionProviders.
             logSeverityLevel,
+            executionProviders: normalizeDeviceOrder(env.preferredDeviceOrder),
             ...session_options,
         });
     const session = await (apis.IS_WEB_ENV ? (webInitChain = webInitChain.then(load)) : load());
