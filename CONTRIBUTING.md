@@ -11,14 +11,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-# Contribute to 🤗 Transformers.js
+# Contribute to Agentic.js
 
 Everyone is welcome to contribute, and we value everybody's contribution. Code
 contributions are not the only way to help the community. Answering questions, helping
 others, and improving the documentation are also immensely valuable.
 
-It also helps us if you spread the word! Reference the library in blog posts
-about the awesome projects it made possible, shout out on Twitter every time it has
+Agentic.js is the Sovereign DevOps Kernel — an MCP-native operational runtime for autonomous diagnosis and human-approved infrastructure remediation. It is built on the inference foundation of [Transformers.js](https://github.com/huggingface/transformers.js).
+
+It also helps us if you spread the word! Reference the project in blog posts
+about the awesome things it made possible, shout out on social media every time it has
 helped you, or simply ⭐️ the repository to say thank you.
 
 **This guide was heavily inspired by the awesome [scikit-learn guide to contributing](https://github.com/scikit-learn/scikit-learn/blob/main/CONTRIBUTING.md) and our friends at [transformers](https://github.com/huggingface/transformers/blob/main/CONTRIBUTING.md).**

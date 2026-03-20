@@ -1,39 +1,102 @@
+# Agentic.js: The Sovereign DevOps Kernel
 
+**Autonomous Diagnosis. Human-Approved Execution. Edge-Native Remediation.**
 
-<p align="center">
-    <br/>
-    <picture> 
-        <source media="(prefers-color-scheme: dark)" srcset="https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/transformersjs-dark.svg" width="500" style="max-width: 100%;">
-        <source media="(prefers-color-scheme: light)" srcset="https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/transformersjs-light.svg" width="500" style="max-width: 100%;">
-        <img alt="transformers.js javascript library logo" src="https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/transformersjs-light.svg" width="500" style="max-width: 100%;">
-    </picture>
-    <br/>
-</p>
+Agentic.js is an MCP-native operational runtime for monitoring production systems, diagnosing incidents, proposing fixes, and executing verified changes through a human-gated workflow.
+
+Built on the high-performance browser and edge inference foundation of [Transformers.js](https://github.com/huggingface/transformers.js), Agentic.js transforms local ML into a sovereign control plane for infrastructure.
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/@huggingface/transformers"><img alt="NPM" src="https://img.shields.io/npm/v/@huggingface/transformers"></a>
-    <a href="https://www.npmjs.com/package/@huggingface/transformers"><img alt="NPM Downloads" src="https://img.shields.io/npm/dw/@huggingface/transformers"></a>
-    <a href="https://www.jsdelivr.com/package/npm/@huggingface/transformers"><img alt="jsDelivr Hits" src="https://img.shields.io/jsdelivr/npm/hw/@huggingface/transformers"></a>
-    <a href="https://github.com/huggingface/transformers.js/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/huggingface/transformers.js?color=blue"></a>
-    <a href="https://huggingface.co/docs/transformers.js/index"><img alt="Documentation" src="https://img.shields.io/website/http/huggingface.co/docs/transformers.js/index.svg?down_color=red&down_message=offline&up_message=online"></a>
+    <a href="https://github.com/MYaelMendez/Agentic.js/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/MYaelMendez/Agentic.js?color=blue"></a>
 </p>
 
+---
 
-<h3 align="center">
-  <p>State-of-the-art Machine Learning for the Web</p>
-</h3>
+## The Evolution of Agentic.js
 
-Run 🤗 Transformers directly in your browser, with no need for a server!
+**From:** Library Fork (ML Utility)  
+**To:** Sovereign DevOps Kernel (Infrastructure Platform)
 
-Transformers.js is designed to be functionally equivalent to Hugging Face's [transformers](https://github.com/huggingface/transformers) python library, meaning you can run the same pretrained models using a very similar API. These models support common tasks in different modalities, such as:
-  - 📝 **Natural Language Processing**: text classification, named entity recognition, question answering, language modeling, summarization, translation, multiple choice, and text generation.
-  - 🖼️ **Computer Vision**: image classification, object detection, segmentation, and depth estimation.
-  - 🗣️ **Audio**: automatic speech recognition, audio classification, and text-to-speech.
-  - 🐙 **Multimodal**: embeddings, zero-shot audio classification, zero-shot image classification, and zero-shot object detection.
+### Thesis
 
-Transformers.js uses [ONNX Runtime](https://onnxruntime.ai/) to run models in the browser. The best part about it, is that you can easily [convert](#convert-your-models-to-onnx) your pretrained PyTorch, TensorFlow, or JAX models to ONNX using [🤗 Optimum](https://github.com/huggingface/optimum#onnx--onnx-runtime). 
+The value of LLMs is moving from generation toward operation. While the market is crowded with AI chat interfaces, there is still a vacuum for **sovereign controllers**: systems that can safely observe, reason about, and act on production infrastructure without surrendering control over code, logs, secrets, or execution.
 
-For more information, check out the full [documentation](https://huggingface.co/docs/transformers.js).
+### Lineage Advantage
+
+Agentic.js originated from the inference foundation of [Transformers.js](https://github.com/huggingface/transformers.js). That lineage gives it a unique edge-native capability: local or perimeter-contained reasoning for operational workflows. Agentic.js enables **Perimeter-First Ops** — automated remediation designed to run within the customer's secure infrastructure boundary.
+
+Inference is not the product. It is the substrate for a safer operational system.
+
+### Market Positioning
+
+Agentic.js is not competing primarily with code-generation tools like GitHub Copilot. It is positioned at the system reliability and infrastructure control layer:
+
+- **Incident Response** — alongside tools like PagerDuty and Sentry
+- **Remediation Workflows** — alongside tools like Terraform and Ansible
+- **Deployment Approval & Verification** — alongside tools like ArgoCD and Spinnaker
+
+### Product Truth
+
+Agentic.js reduces **Mean Time to Recovery (MTTR)** by automating diagnosis and patch proposal while preserving the human as the final authority over execution.
+
+---
+
+## ⚡ The Full Loop
+
+**Observe → Diagnose → Propose → Authorize → Execute → Verify**
+
+Most agents fail in production because they lack a safety boundary. Agentic.js is built around a mandatory **Approval Gate**, ensuring no change reaches production without human review.
+
+- **Observe** — ingest logs, traces, metrics, and alerts from edge and cloud systems.
+- **Diagnose** — identify likely root causes and gather relevant artifacts into the Sovereign VFS.
+- **Propose** — generate a structured patch, config change, or rollback plan.
+- **Authorize** — review the exact diff, risk level, and rollback path in the approval workflow.
+- **Execute** — deploy approved changes to the target environment.
+- **Verify** — monitor post-deploy health and trigger rollback logic if anomalies persist.
+
+---
+
+## 🏗️ Architecture: The Sovereign Stack
+
+Agentic.js is organized around distinct operational primitives (roadmap):
+
+- **@agentic/runtime** — execution engine and state coordinator
+- **@agentic/mcp** — MCP-native tool registry and orchestration layer
+- **@agentic/vfs** — persistent virtual file system for operational memory
+- **@agentic/approval** — auditable human approval boundary
+- **@agentic/inference** — local model execution powered by Transformers.js
+
+---
+
+## 🔐 Why Sovereignty Matters
+
+Operational data is sensitive by default. Agentic.js is designed to run locally or at the edge, so teams can keep logs, code, secrets, and remediation workflows within their own infrastructure boundary.
+
+You control:
+- the models
+- the tools
+- the memory
+- the execution path
+
+---
+
+## 💼 Revenue Vectors _(roadmap)_
+
+- **Sovereign Enterprise Edition** — managed edge deployment, policy controls, and verifiable audit trails
+- **MCP Tool Marketplace** — premium integrations for AWS, GCP, Kubernetes, Cloudflare, and internal systems
+- **Verification Engine** — advanced safety scanning and post-deploy validation for agent-proposed changes
+
+---
+
+## Why Now
+
+Infrastructure complexity is increasing exponentially while DevOps talent remains constrained. This creates immediate demand for systems that can automate the cognitive toil of diagnosis without removing human control from the execution path.
+
+---
+
+## Inference Foundation (Transformers.js)
+
+The sections below document the underlying Transformers.js inference engine that powers `@agentic/inference`. This runtime substrate provides edge-native model execution and is the technical foundation from which Agentic.js was built.
 
 
 ## Installation
