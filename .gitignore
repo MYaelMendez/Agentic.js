@@ -14,3 +14,7 @@ packages/*/types
 
 # Do not track coverage reports
 packages/*/coverage
+
+# Do not track local environment files with secrets
+packages/*/.env
+.env
