@@ -1,0 +1,29 @@
+/* Agentic.js — MCP Edge UI global styles */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  background: #0a0c0f;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace,
+    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0a0c0f; }
+::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4a5568; }
+
+button { cursor: pointer; border: none; background: none; color: inherit; font: inherit; }
+input  { background: none; border: none; outline: none; color: inherit; font: inherit; }

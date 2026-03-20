@@ -10,7 +10,11 @@ package-lock.json
 # Do not track build artifacts/generated files
 packages/*/dist
 packages/*/types
+apps/*/dist
 *.tsbuildinfo
 
 # Do not track coverage reports
 packages/*/coverage
+
+# Do not track local env files
+apps/*/.env
