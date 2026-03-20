@@ -36,6 +36,56 @@ Transformers.js uses [ONNX Runtime](https://onnxruntime.ai/) to run models in th
 For more information, check out the full [documentation](https://huggingface.co/docs/transformers.js).
 
 
+## Agentic.js MCP Edge UI
+
+The `apps/agentic-ui` package provides a hardened React UI for agentic/MCP
+workflows, backed by a server-side proxy that keeps API credentials off the
+client.
+
+### Setup
+
+```bash
+# 1. Install dependencies (from repo root)
+pnpm install
+
+# 2. Configure environment variables
+cp apps/agentic-ui/.env.example apps/agentic-ui/.env
+# Edit apps/agentic-ui/.env and set GEMINI_API_KEY
+
+# 3. Run in development (proxy on :3001, Vite on :5173)
+cd apps/agentic-ui
+pnpm dev
+
+# 4. Build for production
+pnpm build          # output in apps/agentic-ui/dist/
+pnpm start          # start the Express proxy (serves /api/*)
+```
+
+### Required environment variables
+
+| Variable | Description |
+|---|---|
+| `GEMINI_API_KEY` | Google Gemini API key — **server-side only**, never sent to the browser |
+| `PORT` | Port for the Express proxy server (default: `3001`) |
+| `ALLOWED_ORIGIN` | CORS allowed origin (default: `http://localhost:5173`) |
+
+### How the proxy works
+
+```
+Browser  →  POST /api/model { prompt }
+              ↓  (Vite dev proxy / same-origin in prod)
+           Express server (reads GEMINI_API_KEY from env)
+              ↓
+           Google Gemini API
+              ↓
+           { text: "..." }  returned to browser
+```
+
+The client never touches the API key. The server validates and clamps inputs,
+retries transient errors, and surfaces user-friendly error messages.
+
+---
+
 ## Installation
 
 
