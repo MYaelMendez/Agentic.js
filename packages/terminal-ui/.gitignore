@@ -1,0 +1,7 @@
+# Environment variables (may contain secrets — never commit real values)
+.env
+.env.local
+.env.*.local
+
+# Build output (excluded by root .gitignore via packages/*/dist)
+dist/

@@ -1,0 +1,23 @@
+{
+  "name": "@agentic.js/terminal-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agentic.js React V20 terminal UI with server-side Gemini API proxy",
+  "type": "module",
+  "scripts": {
+    "dev:ui": "vite",
+    "dev:server": "node server.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "lucide-react": "^0.441.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.18"
+  }
+}
