@@ -1,8 +1,8 @@
 {
-  "name": "@huggingface/transformers-monorepo",
-  "version": "0.0.1",
+  "name": "@agentic/monorepo",
+  "version": "0.1.0",
   "private": true,
-  "description": "Monorepo for Hugging Face Transformers.js and framework integrations",
+  "description": "Agentic.js — The Sovereign DevOps Kernel: Autonomous Diagnosis, Human-Approved Execution, Edge-Native Remediation.",
   "type": "module",
   "packageManager": "pnpm@10.28.1",
   "scripts": {
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huggingface/transformers.js.git"
+    "url": "git+https://github.com/MYaelMendez/Agentic.js.git"
   },
-  "author": "Hugging Face",
+  "author": "MYaelMendez",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/huggingface/transformers.js/issues"
+    "url": "https://github.com/MYaelMendez/Agentic.js/issues"
   },
-  "homepage": "https://github.com/huggingface/transformers.js#readme",
+  "homepage": "https://github.com/MYaelMendez/Agentic.js#readme",
   "devDependencies": {
     "prettier": "3.8.1",
     "typescript": "5.9.3"
