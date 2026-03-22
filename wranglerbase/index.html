@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="æ>_ WRANGLERBASE v7.5 — interactive system dashboard for ægentic.js" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <title>æ&gt;_ WRANGLERBASE v7.5</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Skip navigation for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Animated background overlay (decorative) -->
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="scan-line" aria-hidden="true"></div>
+
+    <div class="shell" role="application" aria-label="WRANGLERBASE v7.5 shell">
+      <!-- Header bar -->
+      <header class="topbar" role="banner">
+        <div class="topbar__brand" aria-label="Application name">
+          <span class="topbar__sigil" aria-hidden="true">æ&gt;_</span>
+          <span class="topbar__title">WRANGLERBASE</span>
+          <span class="topbar__version">v7.5</span>
+        </div>
+
+        <nav class="topbar__nav" aria-label="Primary navigation">
+          <button
+            class="nav-btn nav-btn--active"
+            data-panel="dashboard"
+            aria-current="page"
+            aria-controls="panel-dashboard"
+          >
+            Dashboard
+          </button>
+          <button class="nav-btn" data-panel="metrics" aria-controls="panel-metrics">Metrics</button>
+          <button class="nav-btn" data-panel="feed" aria-controls="panel-feed">Live Feed</button>
+          <button class="nav-btn" data-panel="terminal" aria-controls="panel-terminal">Terminal</button>
+        </nav>
+
+        <div class="topbar__status" role="status" aria-live="polite" aria-atomic="true">
+          <span class="status-dot status-dot--online" aria-label="System online"></span>
+          <span class="status-label" id="system-status">ONLINE</span>
+        </div>
+      </header>
+
+      <!-- Main workspace -->
+      <main id="main-content" class="workspace" role="main">
+        <!-- Dashboard panel -->
+        <section
+          id="panel-dashboard"
+          class="panel panel--active"
+          role="tabpanel"
+          aria-label="Dashboard"
+          tabindex="0"
+        >
+          <div class="panel__grid">
+            <!-- Metrics summary cards -->
+            <div class="card-row" role="list" aria-label="Key metrics">
+              <article class="metric-card" role="listitem" aria-labelledby="mc-agents-label">
+                <span class="metric-card__icon" aria-hidden="true">⬡</span>
+                <dl class="metric-card__data">
+                  <dt id="mc-agents-label" class="metric-card__label">Active Agents</dt>
+                  <dd class="metric-card__value" id="mc-agents-value" aria-live="polite">—</dd>
+                </dl>
+              </article>
+
+              <article class="metric-card" role="listitem" aria-labelledby="mc-tasks-label">
+                <span class="metric-card__icon" aria-hidden="true">◈</span>
+                <dl class="metric-card__data">
+                  <dt id="mc-tasks-label" class="metric-card__label">Queued Tasks</dt>
+                  <dd class="metric-card__value" id="mc-tasks-value" aria-live="polite">—</dd>
+                </dl>
+              </article>
+
+              <article class="metric-card metric-card--accent" role="listitem" aria-labelledby="mc-throughput-label">
+                <span class="metric-card__icon" aria-hidden="true">≋</span>
+                <dl class="metric-card__data">
+                  <dt id="mc-throughput-label" class="metric-card__label">Throughput</dt>
+                  <dd class="metric-card__value" id="mc-throughput-value" aria-live="polite">—</dd>
+                </dl>
+              </article>
+
+              <article class="metric-card" role="listitem" aria-labelledby="mc-latency-label">
+                <span class="metric-card__icon" aria-hidden="true">⏱</span>
+                <dl class="metric-card__data">
+                  <dt id="mc-latency-label" class="metric-card__label">Avg Latency</dt>
+                  <dd class="metric-card__value" id="mc-latency-value" aria-live="polite">—</dd>
+                </dl>
+              </article>
+            </div>
+
+            <!-- Throughput chart -->
+            <section class="widget" aria-labelledby="chart-title">
+              <h2 class="widget__title" id="chart-title">Throughput (last 60 s)</h2>
+              <div class="chart-area" role="img" aria-label="Live throughput bar chart" aria-describedby="chart-desc">
+                <p id="chart-desc" class="sr-only">
+                  A live bar chart showing throughput over the last 60 seconds. Values update every second.
+                </p>
+                <canvas id="throughput-chart" width="600" height="120" aria-hidden="true"></canvas>
+              </div>
+            </section>
+
+            <!-- Agent status table -->
+            <section class="widget" aria-labelledby="agents-title">
+              <h2 class="widget__title" id="agents-title">Agent Roster</h2>
+              <div class="table-scroll" tabindex="0" aria-label="Scrollable agent roster table">
+                <table class="data-table" aria-label="Active agents">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Task</th>
+                      <th scope="col">Load</th>
+                      <th scope="col">Uptime</th>
+                    </tr>
+                  </thead>
+                  <tbody id="agent-table-body" aria-live="polite" aria-relevant="additions removals">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Metrics panel -->
+        <section
+          id="panel-metrics"
+          class="panel"
+          role="tabpanel"
+          aria-label="Detailed metrics"
+          tabindex="0"
+          hidden
+        >
+          <div class="panel__grid">
+            <section class="widget widget--full" aria-labelledby="metrics-title">
+              <h2 class="widget__title" id="metrics-title">System Metrics</h2>
+
+              <div class="gauge-row" role="list" aria-label="System gauges">
+                <div class="gauge" role="listitem" aria-labelledby="gauge-cpu-label">
+                  <div
+                    class="gauge__ring"
+                    role="meter"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-labelledby="gauge-cpu-label"
+                    id="gauge-cpu"
+                  >
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="gauge__track" cx="50" cy="50" r="42" />
+                      <circle class="gauge__fill" cx="50" cy="50" r="42" id="gauge-cpu-fill" />
+                    </svg>
+                    <span class="gauge__val" id="gauge-cpu-val" aria-hidden="true">0%</span>
+                  </div>
+                  <span class="gauge__label" id="gauge-cpu-label">CPU</span>
+                </div>
+
+                <div class="gauge" role="listitem" aria-labelledby="gauge-mem-label">
+                  <div
+                    class="gauge__ring"
+                    role="meter"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-labelledby="gauge-mem-label"
+                    id="gauge-mem"
+                  >
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="gauge__track" cx="50" cy="50" r="42" />
+                      <circle class="gauge__fill" cx="50" cy="50" r="42" id="gauge-mem-fill" />
+                    </svg>
+                    <span class="gauge__val" id="gauge-mem-val" aria-hidden="true">0%</span>
+                  </div>
+                  <span class="gauge__label" id="gauge-mem-label">Memory</span>
+                </div>
+
+                <div class="gauge" role="listitem" aria-labelledby="gauge-net-label">
+                  <div
+                    class="gauge__ring"
+                    role="meter"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-labelledby="gauge-net-label"
+                    id="gauge-net"
+                  >
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="gauge__track" cx="50" cy="50" r="42" />
+                      <circle class="gauge__fill" cx="50" cy="50" r="42" id="gauge-net-fill" />
+                    </svg>
+                    <span class="gauge__val" id="gauge-net-val" aria-hidden="true">0%</span>
+                  </div>
+                  <span class="gauge__label" id="gauge-net-label">Network I/O</span>
+                </div>
+
+                <div class="gauge" role="listitem" aria-labelledby="gauge-gpu-label">
+                  <div
+                    class="gauge__ring"
+                    role="meter"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-labelledby="gauge-gpu-label"
+                    id="gauge-gpu"
+                  >
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="gauge__track" cx="50" cy="50" r="42" />
+                      <circle class="gauge__fill" cx="50" cy="50" r="42" id="gauge-gpu-fill" />
+                    </svg>
+                    <span class="gauge__val" id="gauge-gpu-val" aria-hidden="true">0%</span>
+                  </div>
+                  <span class="gauge__label" id="gauge-gpu-label">GPU</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Live feed panel -->
+        <section
+          id="panel-feed"
+          class="panel"
+          role="tabpanel"
+          aria-label="Live event feed"
+          tabindex="0"
+          hidden
+        >
+          <div class="panel__grid">
+            <section class="widget widget--full" aria-labelledby="feed-title">
+              <div class="widget__header">
+                <h2 class="widget__title" id="feed-title">Live Feed</h2>
+                <div class="feed-controls">
+                  <label class="toggle-label" for="feed-pause">
+                    <input type="checkbox" id="feed-pause" role="switch" aria-checked="false" />
+                    Pause
+                  </label>
+                  <button class="btn-clear" id="feed-clear" aria-label="Clear feed log">Clear</button>
+                </div>
+              </div>
+              <ol
+                id="feed-log"
+                class="feed-log"
+                aria-live="polite"
+                aria-relevant="additions"
+                aria-label="Live system event log"
+              >
+                <!-- Populated by JS -->
+              </ol>
+            </section>
+          </div>
+        </section>
+
+        <!-- Terminal panel -->
+        <section
+          id="panel-terminal"
+          class="panel"
+          role="tabpanel"
+          aria-label="Interactive terminal"
+          tabindex="0"
+          hidden
+        >
+          <div class="terminal" role="region" aria-label="Terminal emulator">
+            <div id="terminal-output" class="terminal__output" aria-live="polite" aria-relevant="additions" role="log">
+              <p class="terminal__line terminal__line--info">æ&gt;_ WRANGLERBASE v7.5 terminal ready. Type <kbd>help</kbd> for commands.</p>
+            </div>
+            <form class="terminal__input-row" id="terminal-form" aria-label="Terminal command input">
+              <label for="terminal-input" class="terminal__prompt" aria-hidden="true">æ&gt;_</label>
+              <input
+                id="terminal-input"
+                class="terminal__input"
+                type="text"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-label="Terminal command input"
+                placeholder="enter command…"
+              />
+              <button type="submit" class="terminal__submit">Run</button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="statusbar" role="contentinfo">
+        <span class="statusbar__item" id="footer-time" aria-label="Current time" aria-live="polite"></span>
+        <span class="statusbar__sep" aria-hidden="true">|</span>
+        <span class="statusbar__item">ægentic.js</span>
+        <span class="statusbar__sep" aria-hidden="true">|</span>
+        <span class="statusbar__item" id="footer-build" aria-label="Build version">build <time datetime="2026-03-22">2026-03-22</time></span>
+        <span class="statusbar__sep" aria-hidden="true">|</span>
+        <a
+          href="https://github.com/MYaelMendez/Agentic.js"
+          class="statusbar__link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Agentic.js repository on GitHub (opens in new tab)"
+        >GitHub ↗</a>
+      </footer>
+    </div>
+
+    <!-- Overlay: loading screen -->
+    <div class="overlay overlay--boot" id="boot-overlay" role="dialog" aria-modal="true" aria-label="Booting WRANGLERBASE">
+      <div class="overlay__content">
+        <p class="overlay__logo" aria-hidden="true">æ&gt;_</p>
+        <p class="overlay__title">WRANGLERBASE v7.5</p>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Boot progress" id="boot-progress-bar">
+          <div class="progress-bar__fill" id="boot-progress-fill"></div>
+        </div>
+        <p class="overlay__status" id="boot-status" aria-live="polite">Initialising…</p>
+      </div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
