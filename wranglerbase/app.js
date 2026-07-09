@@ -573,7 +573,7 @@ function populateShareAgentList() {
   if (!list) return;
   list.innerHTML = '';
 
-  const agents = state.agents.length ? state.agents : [];
+  const agents = state.agents;
   if (!agents.length) {
     const empty = document.createElement('li');
     empty.className = 'share-agent-item';
@@ -656,13 +656,6 @@ function initShare() {
   // Close on backdrop click
   dom.shareDialog?.addEventListener('click', (e) => {
     if (e.target === dom.shareDialog) closeDialog();
-  });
-
-  // Close on Escape (native dialog behaviour — no extra code needed, but
-  // we also cancel the default so no duplicate close attempt)
-  dom.shareDialog?.addEventListener('cancel', (e) => {
-    e.preventDefault();
-    closeDialog();
   });
 }
 
