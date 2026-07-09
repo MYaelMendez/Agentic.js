@@ -797,12 +797,24 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
+  /* reset <dialog> UA defaults */
+  border: none;
+  padding: 0;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
   background: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-overlay);
   transition: opacity var(--dur-slow) ease;
+}
+
+/* suppress the UA ::backdrop since the overlay is the full-screen layer */
+.overlay::backdrop {
+  display: none;
 }
 
 .overlay--hidden {

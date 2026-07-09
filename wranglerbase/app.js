@@ -177,7 +177,7 @@ function runBootSequence() {
         dom.bootOverlay.addEventListener(
           'transitionend',
           () => {
-            dom.bootOverlay.hidden = true;
+            dom.bootOverlay.close();
             // Move focus into main content
             document.getElementById('main-content')?.focus();
           },
@@ -607,6 +607,9 @@ function startApplication() {
 function init() {
   initNav();
   initClock();
+
+  // Open the boot dialog as a true modal (focus-trapped, top-layer)
+  dom.bootOverlay.showModal();
   runBootSequence();
 
   // Cleanup on page unload

@@ -304,7 +304,7 @@
     </div>
 
     <!-- Overlay: loading screen -->
-    <div class="overlay overlay--boot" id="boot-overlay" role="dialog" aria-modal="true" aria-label="Booting WRANGLERBASE">
+    <dialog class="overlay overlay--boot" id="boot-overlay" aria-label="Booting WRANGLERBASE">
       <div class="overlay__content">
         <p class="overlay__logo" aria-hidden="true">æ&gt;_</p>
         <p class="overlay__title">WRANGLERBASE v7.5</p>
@@ -313,7 +313,7 @@
         </div>
         <p class="overlay__status" id="boot-status" aria-live="polite">Initialising…</p>
       </div>
-    </div>
+    </dialog>
 
     <script src="app.js" type="module"></script>
   </body>
