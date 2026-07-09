@@ -125,6 +125,12 @@ const dom = {
 
   footerTime:        $('footer-time'),
   systemStatus:      $('system-status'),
+
+  shareBtn:          $('share-btn'),
+  shareDialog:       $('share-dialog'),
+  shareAgentList:    $('share-agent-list'),
+  shareDialogClose:  $('share-dialog-close'),
+  shareDialogCancel: $('share-dialog-cancel'),
 };
 
 // ---------------------------------------------------------------------------
@@ -503,6 +509,7 @@ const COMMANDS = {
     '  clear      — clear terminal output',
     '  version    — show version string',
     '  echo <…>   — echo arguments',
+    '  share      — open Share with Agent dialog',
   ].join('\n'),
 
   status: () =>
@@ -516,6 +523,12 @@ const COMMANDS = {
   version: () => 'æ>_ WRANGLERBASE v7.5 — ægentic.js',
 
   echo: (args) => args.join(' ') || '(empty)',
+
+  share: () => {
+    populateShareAgentList();
+    dom.shareDialog.showModal();
+    return 'Share dialog opened.';
+  },
 
   clear: 'CLEAR',
 };
@@ -549,6 +562,108 @@ function appendTerminalLine(text, type = 'out') {
   p.textContent = text;
   dom.terminalOutput.appendChild(p);
   dom.terminalOutput.scrollTop = dom.terminalOutput.scrollHeight;
+}
+
+// ---------------------------------------------------------------------------
+// Share with agent
+// ---------------------------------------------------------------------------
+
+function populateShareAgentList() {
+  const list = dom.shareAgentList;
+  if (!list) return;
+  list.innerHTML = '';
+
+  const agents = state.agents.length ? state.agents : [];
+  if (!agents.length) {
+    const empty = document.createElement('li');
+    empty.className = 'share-agent-item';
+    empty.textContent = 'No agents available.';
+    empty.style.color = 'var(--color-text-dim)';
+    empty.style.cursor = 'default';
+    list.appendChild(empty);
+    return;
+  }
+
+  agents.forEach((agent) => {
+    const li = document.createElement('li');
+    li.className = 'share-agent-item';
+    li.setAttribute('role', 'button');
+    li.setAttribute('tabindex', '0');
+    li.setAttribute('aria-label', `Share with ${agent.id} — ${agent.task}`);
+
+    const idSpan = document.createElement('span');
+    idSpan.className = 'share-agent-item__id';
+    idSpan.textContent = agent.id;
+
+    const statusBadgeClass =
+      agent.status === 'ACTIVE' ? 'badge--active'
+      : agent.status === 'ERROR' ? 'badge--error'
+      : 'badge--idle';
+    const badge = document.createElement('span');
+    badge.className = `badge ${statusBadgeClass}`;
+    badge.textContent = agent.status;
+
+    const taskSpan = document.createElement('span');
+    taskSpan.className = 'share-agent-item__task';
+    taskSpan.textContent = agent.task;
+
+    li.append(idSpan, badge, taskSpan);
+
+    const dispatch = () => shareWithAgent(agent);
+    li.addEventListener('click', dispatch);
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        dispatch();
+      }
+    });
+
+    list.appendChild(li);
+  });
+}
+
+function shareWithAgent(agent) {
+  const ts = formatTime(new Date());
+  const msg = `Dashboard snapshot shared with ${agent.id} (${agent.task})`;
+
+  // Log to live feed
+  const li = document.createElement('li');
+  li.className = 'feed-log__item';
+  li.innerHTML = `
+    <span class="feed-log__ts" aria-label="Timestamp: ${ts}">${ts}</span>
+    <span class="feed-log__level feed-log__level--info" aria-label="Level: INFO">INFO</span>
+    <span class="feed-log__msg">⇡ ${msg}</span>
+  `;
+  dom.feedLog.prepend(li);
+  state.feedCount++;
+
+  // Echo to terminal
+  appendTerminalLine(`⇡ ${msg}`, 'out');
+
+  dom.shareDialog.close();
+}
+
+function initShare() {
+  dom.shareBtn?.addEventListener('click', () => {
+    populateShareAgentList();
+    dom.shareDialog.showModal();
+  });
+
+  const closeDialog = () => dom.shareDialog.close();
+  dom.shareDialogClose?.addEventListener('click', closeDialog);
+  dom.shareDialogCancel?.addEventListener('click', closeDialog);
+
+  // Close on backdrop click
+  dom.shareDialog?.addEventListener('click', (e) => {
+    if (e.target === dom.shareDialog) closeDialog();
+  });
+
+  // Close on Escape (native dialog behaviour — no extra code needed, but
+  // we also cancel the default so no duplicate close attempt)
+  dom.shareDialog?.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    closeDialog();
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -592,6 +707,7 @@ function startApplication() {
   initChart();
   initFeedControls();
   initTerminal();
+  initShare();
 
   // Initial feed entries
   for (let i = 0; i < 12; i++) appendFeedItem();

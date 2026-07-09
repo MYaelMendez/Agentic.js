@@ -39,11 +39,44 @@
           <button class="nav-btn" data-panel="terminal" aria-controls="panel-terminal">Terminal</button>
         </nav>
 
+        <!-- Share with agent button -->
+        <button
+          class="share-btn"
+          id="share-btn"
+          aria-haspopup="dialog"
+          aria-label="Share dashboard with agent"
+        >
+          <span class="share-btn__icon" aria-hidden="true">⇡</span>
+          Share
+        </button>
+
         <div class="topbar__status" role="status" aria-live="polite" aria-atomic="true">
           <span class="status-dot status-dot--online" aria-label="System online"></span>
           <span class="status-label" id="system-status">ONLINE</span>
         </div>
       </header>
+
+      <!-- Share-with-agent dialog -->
+      <dialog
+        class="share-dialog"
+        id="share-dialog"
+        aria-label="Share dashboard with agent"
+        aria-describedby="share-dialog-desc"
+      >
+        <div class="share-dialog__header">
+          <h2 class="share-dialog__title">Share with Agent</h2>
+          <button class="share-dialog__close" id="share-dialog-close" aria-label="Close share dialog">✕</button>
+        </div>
+        <p class="share-dialog__desc" id="share-dialog-desc">
+          Select an agent to receive a snapshot of the current dashboard state.
+        </p>
+        <ul class="share-agent-list" id="share-agent-list" role="list" aria-label="Available agents">
+          <!-- Populated by JS -->
+        </ul>
+        <div class="share-dialog__footer">
+          <button class="share-dialog__cancel" id="share-dialog-cancel">Cancel</button>
+        </div>
+      </dialog>
 
       <!-- Main workspace -->
       <main id="main-content" class="workspace" role="main">

@@ -792,6 +792,181 @@ body {
 }
 
 /* ---------------------------------------------------------
+   Share button (topbar)
+   --------------------------------------------------------- */
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
+}
+
+.share-btn:hover,
+.share-btn:focus-visible {
+  color: var(--color-text-bright);
+  border-color: var(--color-accent-2);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  outline: none;
+}
+
+.share-btn__icon {
+  font-size: var(--font-size-base);
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------
+   Share-with-agent dialog
+   --------------------------------------------------------- */
+.share-dialog {
+  /* reset dialog UA defaults */
+  border: none;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  width: min(420px, 92vw);
+  max-height: 80dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--color-border);
+}
+
+.share-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.share-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.share-dialog__title {
+  font-size: var(--font-size-base);
+  color: var(--color-text-bright);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.share-dialog__close {
+  background: none;
+  border: none;
+  color: var(--color-text-dim);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: var(--space-1);
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  transition: color var(--dur-fast);
+}
+
+.share-dialog__close:hover,
+.share-dialog__close:focus-visible {
+  color: var(--color-danger);
+  outline: none;
+}
+
+.share-dialog__desc {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dim);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.share-agent-list {
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.share-agent-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.share-agent-item:hover,
+.share-agent-item:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.share-agent-item__id {
+  font-weight: 700;
+  color: var(--color-text-bright);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  width: 5.5rem;
+}
+
+.share-agent-item__task {
+  color: var(--color-text-dim);
+  font-size: var(--font-size-xs);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.share-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.share-dialog__cancel {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+
+.share-dialog__cancel:hover,
+.share-dialog__cancel:focus-visible {
+  color: var(--color-text-bright);
+  border-color: var(--color-text-dim);
+  outline: none;
+}
+
+/* ---------------------------------------------------------
    Boot overlay
    --------------------------------------------------------- */
 .overlay {
