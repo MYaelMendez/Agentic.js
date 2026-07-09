@@ -812,9 +812,9 @@ body {
   transition: opacity var(--dur-slow) ease;
 }
 
-/* suppress the UA ::backdrop since the overlay is the full-screen layer */
+/* overlay is the full-screen layer — backdrop can be transparent */
 .overlay::backdrop {
-  display: none;
+  background: transparent;
 }
 
 .overlay--hidden {

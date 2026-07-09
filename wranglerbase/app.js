@@ -609,7 +609,9 @@ function init() {
   initClock();
 
   // Open the boot dialog as a true modal (focus-trapped, top-layer)
-  dom.bootOverlay.showModal();
+  if (!dom.bootOverlay.open) {
+    dom.bootOverlay.showModal();
+  }
   runBootSequence();
 
   // Cleanup on page unload
