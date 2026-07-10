@@ -197,6 +197,19 @@ body {
   align-items: baseline;
   gap: var(--space-2);
   flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.topbar__brand:hover .topbar__sigil,
+.topbar__brand:focus-visible .topbar__sigil {
+  color: var(--color-accent-2);
+}
+
+.topbar__brand:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
 .topbar__sigil {
