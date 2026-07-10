@@ -8,18 +8,22 @@
    Design tokens (CSS custom properties)
    --------------------------------------------------------- */
 :root {
-  /* Colour palette */
-  --color-bg: #0a0a0f;
-  --color-surface: #0f0f1a;
-  --color-surface-2: #141428;
-  --color-border: #1e1e3a;
-  --color-accent: #7b5ea7;
+  /* Colour palette — scalar supremacy tier */
+  --color-bg: #060608;
+  --color-surface: #0b0b18;
+  --color-surface-2: #0f0f22;
+  --color-border: #181836;
+  --color-accent: #8b6fc2;
   --color-accent-2: #4ecdc4;
   --color-accent-3: #f7b731;
   --color-danger: #e74c3c;
   --color-text: #c8c8e8;
-  --color-text-dim: #6060a0;
-  --color-text-bright: #e8e8ff;
+  --color-text-dim: #5858a0;
+  --color-text-bright: #ebebff;
+
+  /* Scalar identity tokens */
+  --color-æ: #00e5b0;          /* æ — the top. no scheme above it. */
+  --color-gpu: #76b900;         /* CUDA / GPU-MCP commander */
 
   /* Typography */
   --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, monospace;
@@ -29,6 +33,7 @@
   --font-size-lg: 1.1rem;
   --font-size-xl: 1.5rem;
   --font-size-2xl: 2rem;
+  --font-size-3xl: 3.5rem;
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -66,8 +71,12 @@
 
   .scan-line,
   .bg-grid::before,
+  .bg-glow,
   .status-dot--online::after,
-  .metric-card__value--updating {
+  .metric-card__value--updating,
+  .overlay__ring,
+  .overlay__logo,
+  .progress-bar__fill::after {
     animation: none !important;
   }
 }
@@ -143,19 +152,37 @@ body {
   pointer-events: none;
   background-image: linear-gradient(var(--color-border) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.25;
+  background-size: 48px 48px;
+  opacity: 0.18;
   z-index: 0;
-  /* Use will-change only where needed */
+}
+
+/* Ambient scalar glow — radial halo emanating from above center */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 90% 55% at 50% -5%,
+    color-mix(in srgb, var(--color-æ) 7%, transparent),
+    transparent 65%
+  );
+  z-index: 0;
+  animation: glow-breathe 8s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1;   }
 }
 
 .scan-line {
   position: fixed;
   inset-inline: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent);
-  opacity: 0.15;
-  animation: scan 6s linear infinite;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-æ) 50%, transparent);
+  opacity: 0.12;
+  animation: scan 8s linear infinite;
   pointer-events: none;
   z-index: 1;
 }
@@ -186,10 +213,29 @@ body {
   gap: var(--space-4);
   padding: 0 var(--space-6);
   height: 3rem;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+  border-bottom: none;
   flex-shrink: 0;
   z-index: var(--z-topbar);
+  position: relative;
+}
+
+/* Gradient accent rule under topbar — scalar colour spectrum */
+.topbar::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-accent) 15%,
+    var(--color-æ) 55%,
+    var(--color-gpu) 80%,
+    transparent 100%
+  );
+  opacity: 0.7;
 }
 
 .topbar__brand {
@@ -203,7 +249,10 @@ body {
 
 .topbar__brand:hover .topbar__sigil,
 .topbar__brand:focus-visible .topbar__sigil {
-  color: var(--color-accent-2);
+  color: var(--color-æ);
+  text-shadow:
+    0 0 16px var(--color-æ),
+    0 0 36px color-mix(in srgb, var(--color-æ) 45%, transparent);
 }
 
 .topbar__brand:focus-visible {
@@ -213,10 +262,14 @@ body {
 }
 
 .topbar__sigil {
-  color: var(--color-accent);
+  color: var(--color-æ);
   font-size: var(--font-size-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
+  text-shadow:
+    0 0 10px color-mix(in srgb, var(--color-æ) 55%, transparent),
+    0 0 22px color-mix(in srgb, var(--color-æ) 25%, transparent);
+  transition: text-shadow var(--dur-normal) ease, color var(--dur-normal) ease;
 }
 
 .topbar__title {
@@ -234,8 +287,8 @@ body {
 .topbar__chassis {
   color: var(--color-text-dim);
   font-size: var(--font-size-xs);
-  letter-spacing: 0.04em;
-  opacity: 0.6;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
 }
 
 /* Nav */
@@ -268,9 +321,9 @@ body {
 
 .nav-btn--active,
 .nav-btn[aria-current="page"] {
-  color: var(--color-accent-2);
-  border-color: var(--color-accent-2);
-  background: color-mix(in srgb, var(--color-accent-2) 10%, transparent);
+  color: var(--color-æ);
+  border-color: var(--color-æ);
+  background: color-mix(in srgb, var(--color-æ) 8%, transparent);
 }
 
 /* Status indicator */
@@ -293,7 +346,7 @@ body {
 }
 
 .status-dot--online {
-  background: var(--color-accent-2);
+  background: var(--color-æ);
 }
 
 .status-dot--online::after {
@@ -301,7 +354,7 @@ body {
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  border: 1px solid var(--color-accent-2);
+  border: 1px solid var(--color-æ);
   animation: pulse 2s ease-out infinite;
 }
 
@@ -367,9 +420,15 @@ body {
 }
 
 .metric-card--accent {
-  border-color: color-mix(in srgb, var(--color-accent-2) 40%, transparent);
-  background: color-mix(in srgb, var(--color-accent-2) 5%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-æ) 40%, transparent);
+  background: color-mix(in srgb, var(--color-æ) 5%, var(--color-surface));
 }
+
+/* Per-metric coloured top-edge accent */
+.metric-card[data-metric="agents"]     { border-top: 2px solid var(--color-accent); }
+.metric-card[data-metric="tasks"]      { border-top: 2px solid color-mix(in srgb, var(--color-text-dim) 60%, transparent); }
+.metric-card[data-metric="throughput"] { border-top: 2px solid var(--color-æ); }
+.metric-card[data-metric="latency"]    { border-top: 2px solid var(--color-accent-3); }
 
 .metric-card__icon {
   font-size: var(--font-size-xl);
@@ -379,7 +438,7 @@ body {
 }
 
 .metric-card--accent .metric-card__icon {
-  color: var(--color-accent-2);
+  color: var(--color-æ);
 }
 
 .metric-card__data {
@@ -421,6 +480,14 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-4) var(--space-6);
+  transition: box-shadow var(--dur-normal) ease, border-color var(--dur-normal) ease;
+}
+
+.widget:hover {
+  border-color: color-mix(in srgb, var(--color-æ) 30%, var(--color-border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-æ) 10%, transparent),
+    0 6px 32px color-mix(in srgb, var(--color-æ) 5%, transparent);
 }
 
 .widget--full {
@@ -510,7 +577,7 @@ body {
   letter-spacing: 0.04em;
 }
 
-.badge--active  { color: var(--color-accent-2); border: 1px solid var(--color-accent-2); }
+.badge--active  { color: var(--color-æ);         border: 1px solid var(--color-æ); }
 .badge--idle    { color: var(--color-text-dim);  border: 1px solid var(--color-border); }
 .badge--error   { color: var(--color-danger);    border: 1px solid var(--color-danger); }
 
@@ -573,6 +640,11 @@ body {
   stroke-dasharray: 264; /* 2π × 42 ≈ 264 */
   stroke-dashoffset: 264;
   transition: stroke-dashoffset var(--dur-normal) ease, stroke var(--dur-fast) ease;
+}
+
+/* GPU gauge: CUDA commander green as its base colour */
+.gauge--gpu .gauge__fill {
+  stroke: var(--color-gpu);
 }
 
 .gauge__val {
@@ -681,7 +753,7 @@ body {
   letter-spacing: 0.04em;
 }
 
-.feed-log__level--info    { color: var(--color-accent-2); }
+.feed-log__level--info    { color: var(--color-æ); }
 .feed-log__level--warn    { color: var(--color-accent-3); }
 .feed-log__level--error   { color: var(--color-danger); }
 .feed-log__level--debug   { color: var(--color-text-dim); }
@@ -723,7 +795,7 @@ body {
 }
 
 .terminal__line--info  { color: var(--color-text-dim); }
-.terminal__line--cmd   { color: var(--color-accent-2); }
+.terminal__line--cmd   { color: var(--color-æ); }
 .terminal__line--out   { color: var(--color-text); }
 .terminal__line--err   { color: var(--color-danger); }
 
@@ -752,7 +824,7 @@ body {
   font-family: var(--font-mono);
   font-size: var(--font-size-sm);
   outline: none;
-  caret-color: var(--color-accent-2);
+  caret-color: var(--color-æ);
 }
 
 .terminal__input::placeholder {
@@ -775,8 +847,8 @@ body {
 
 .terminal__submit:hover,
 .terminal__submit:focus-visible {
-  color: var(--color-accent-2);
-  border-color: var(--color-accent-2);
+  color: var(--color-æ);
+  border-color: var(--color-æ);
   outline: none;
 }
 
@@ -808,7 +880,7 @@ body {
 
 .statusbar__link:hover,
 .statusbar__link:focus-visible {
-  color: var(--color-accent-2);
+  color: var(--color-æ);
   outline: none;
 }
 
@@ -1024,43 +1096,128 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--space-4);
+  position: relative; /* establishes stacking context for overlay__ring */
 }
 
+/* Decorative scalar ring — concentric halos around the æ:// sigil */
+.overlay__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-æ) 18%, transparent);
+  pointer-events: none;
+  animation: ring-expand 4s ease-in-out infinite;
+}
+
+.overlay__ring::before {
+  content: '';
+  position: absolute;
+  inset: 30px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-æ) 10%, transparent);
+}
+
+.overlay__ring::after {
+  content: '';
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-gpu) 12%, transparent);
+}
+
+@keyframes ring-expand {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.5; }
+  50%       { transform: translate(-50%, -50%) scale(1.07); opacity: 1;   }
+}
+
+/* The supreme sigil — æ is the top. No scheme above it. */
 .overlay__logo {
-  font-size: var(--font-size-2xl);
-  color: var(--color-accent);
+  font-size: var(--font-size-3xl);
+  color: var(--color-æ);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 1;
+  animation: æ-pulse 3.5s ease-in-out infinite;
+  text-shadow:
+    0 0 20px color-mix(in srgb, var(--color-æ) 70%, transparent),
+    0 0 50px color-mix(in srgb, var(--color-æ) 35%, transparent),
+    0 0 90px color-mix(in srgb, var(--color-æ) 15%, transparent);
+}
+
+@keyframes æ-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 18px color-mix(in srgb, var(--color-æ) 60%, transparent),
+      0 0 45px color-mix(in srgb, var(--color-æ) 28%, transparent);
+  }
+  50% {
+    text-shadow:
+      0 0 28px var(--color-æ),
+      0 0 65px color-mix(in srgb, var(--color-æ) 55%, transparent),
+      0 0 110px color-mix(in srgb, var(--color-æ) 20%, transparent);
+  }
 }
 
 .overlay__title {
   font-size: var(--font-size-lg);
   color: var(--color-text-bright);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
 }
 
 .overlay__subtitle {
   font-size: var(--font-size-xs);
   color: var(--color-text-dim);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
 }
 
 .progress-bar {
-  width: 260px;
-  height: 4px;
+  width: 280px;
+  height: 3px;
   background: var(--color-border);
   border-radius: 2px;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .progress-bar__fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+  background: linear-gradient(90deg, var(--color-accent), var(--color-æ) 60%, var(--color-gpu));
   border-radius: 2px;
   transition: width var(--dur-fast) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep across the fill */
+.progress-bar__fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(200%); }
 }
 
 .overlay__status {
@@ -1068,13 +1225,15 @@ body {
   color: var(--color-text-dim);
   letter-spacing: 0.06em;
   min-height: 1.2em;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------------------------------------------------------
    Focus-visible global style (keyboard nav ring)
    --------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-æ);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
@@ -1097,7 +1256,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-dim);
+  background: color-mix(in srgb, var(--color-æ) 50%, var(--color-text-dim));
 }
 
 /* ---------------------------------------------------------

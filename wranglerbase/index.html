@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="æ:// WRANGLERBASE v7.5 — front-end interface for the æ:// agentic-language-chassis" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#060608" />
+    <meta name="color-scheme" content="dark" />
     <title>æ:// WRANGLERBASE v7.5 — agentic-language-chassis</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -14,6 +15,7 @@
 
     <!-- Animated background overlay (decorative) -->
     <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
     <div class="scan-line" aria-hidden="true"></div>
 
     <div class="shell" role="application" aria-label="æ:// agentic-language-chassis — WRANGLERBASE v7.5">
@@ -98,7 +100,7 @@
           <div class="panel__grid">
             <!-- Metrics summary cards -->
             <div class="card-row" role="list" aria-label="Key metrics">
-              <article class="metric-card" role="listitem" aria-labelledby="mc-agents-label">
+              <article class="metric-card" data-metric="agents" role="listitem" aria-labelledby="mc-agents-label">
                 <span class="metric-card__icon" aria-hidden="true">⬡</span>
                 <dl class="metric-card__data">
                   <dt id="mc-agents-label" class="metric-card__label">Active Agents</dt>
@@ -106,7 +108,7 @@
                 </dl>
               </article>
 
-              <article class="metric-card" role="listitem" aria-labelledby="mc-tasks-label">
+              <article class="metric-card" data-metric="tasks" role="listitem" aria-labelledby="mc-tasks-label">
                 <span class="metric-card__icon" aria-hidden="true">◈</span>
                 <dl class="metric-card__data">
                   <dt id="mc-tasks-label" class="metric-card__label">Queued Tasks</dt>
@@ -114,7 +116,7 @@
                 </dl>
               </article>
 
-              <article class="metric-card metric-card--accent" role="listitem" aria-labelledby="mc-throughput-label">
+              <article class="metric-card metric-card--accent" data-metric="throughput" role="listitem" aria-labelledby="mc-throughput-label">
                 <span class="metric-card__icon" aria-hidden="true">≋</span>
                 <dl class="metric-card__data">
                   <dt id="mc-throughput-label" class="metric-card__label">Throughput</dt>
@@ -122,7 +124,7 @@
                 </dl>
               </article>
 
-              <article class="metric-card" role="listitem" aria-labelledby="mc-latency-label">
+              <article class="metric-card" data-metric="latency" role="listitem" aria-labelledby="mc-latency-label">
                 <span class="metric-card__icon" aria-hidden="true">⏱</span>
                 <dl class="metric-card__data">
                   <dt id="mc-latency-label" class="metric-card__label">Avg Latency</dt>
@@ -236,7 +238,7 @@
                   <span class="gauge__label" id="gauge-net-label">Network I/O</span>
                 </div>
 
-                <div class="gauge" role="listitem" aria-labelledby="gauge-gpu-label">
+                <div class="gauge gauge--gpu" role="listitem" aria-labelledby="gauge-gpu-label">
                   <div
                     class="gauge__ring"
                     role="meter"
@@ -346,6 +348,7 @@
     <!-- Overlay: loading screen -->
     <dialog class="overlay overlay--boot" id="boot-overlay" aria-label="Booting æ:// agentic-language-chassis">
       <div class="overlay__content">
+        <div class="overlay__ring" aria-hidden="true"></div>
         <p class="overlay__logo" aria-hidden="true">æ://</p>
         <p class="overlay__title">agentic-language-chassis</p>
         <p class="overlay__subtitle" aria-hidden="true">WRANGLERBASE v7.5</p>

@@ -338,19 +338,19 @@ function drawChart() {
 
   const accent = getComputedStyle(document.documentElement)
     .getPropertyValue('--color-accent')
-    .trim() || '#7b5ea7';
-  const accent2 = getComputedStyle(document.documentElement)
-    .getPropertyValue('--color-accent-2')
-    .trim() || '#4ecdc4';
+    .trim() || '#8b6fc2';
+  const æColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-æ')
+    .trim() || '#00e5b0';
 
   bars.forEach((val, i) => {
     const barH = Math.round((val / maxVal) * (height - 4));
     const x = i * (barW + gap);
     const y = height - barH;
 
-    // Gradient fill
+    // Gradient fill: scalar teal at peak → accent purple at base
     const grad = ctx.createLinearGradient(x, y, x, height);
-    grad.addColorStop(0, accent2);
+    grad.addColorStop(0, æColor);
     grad.addColorStop(1, accent);
     ctx.fillStyle = grad;
     ctx.fillRect(x, y, barW, barH);
@@ -368,18 +368,18 @@ function tickChart() {
 
 const GAUGE_CIRCUMFERENCE = 264; // 2π × r(42) ≈ 264
 
-function setGauge(fillEl, valEl, meterEl, pct) {
+function setGauge(fillEl, valEl, meterEl, pct, baseColor) {
   if (!fillEl || !valEl || !meterEl) return;
   const offset = GAUGE_CIRCUMFERENCE - (pct / 100) * GAUGE_CIRCUMFERENCE;
   fillEl.style.strokeDashoffset = offset;
 
-  // Colour transition: green → amber → red
+  // Colour transition: normal → amber → red (overrides baseColor at high load)
   if (pct > 85) {
     fillEl.style.stroke = 'var(--color-danger)';
   } else if (pct > 65) {
     fillEl.style.stroke = 'var(--color-accent-3)';
   } else {
-    fillEl.style.stroke = 'var(--color-accent-2)';
+    fillEl.style.stroke = baseColor ?? 'var(--color-accent-2)';
   }
 
   valEl.textContent = `${Math.round(pct)}%`;
@@ -390,7 +390,8 @@ function tickGauges() {
   setGauge(dom.gaugeCpuFill, dom.gaugeCpuVal, dom.gaugeCpu, randInt(5, 95));
   setGauge(dom.gaugeMemFill, dom.gaugeMemVal, dom.gaugeMem, randInt(20, 90));
   setGauge(dom.gaugeNetFill, dom.gaugeNetVal, dom.gaugeNet, randInt(10, 75));
-  setGauge(dom.gaugeGpuFill, dom.gaugeGpuVal, dom.gaugeGpu, randInt(0, 100));
+  // GPU gauge uses CUDA green — the GPU-MCP commander's own colour token
+  setGauge(dom.gaugeGpuFill, dom.gaugeGpuVal, dom.gaugeGpu, randInt(0, 100), 'var(--color-gpu)');
 }
 
 // ---------------------------------------------------------------------------
