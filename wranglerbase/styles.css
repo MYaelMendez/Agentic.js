@@ -1,5 +1,6 @@
 /* =========================================================
-   æ>_ WRANGLERBASE v7.5 — Stylesheet
+   æ:// WRANGLERBASE v7.5 — Stylesheet
+   Part of the æ:// agentic-language-chassis
    Optimised for performance, accessibility, and maintainability
    ========================================================= */
 
@@ -215,6 +216,13 @@ body {
 .topbar__version {
   color: var(--color-text-dim);
   font-size: var(--font-size-xs);
+}
+
+.topbar__chassis {
+  color: var(--color-text-dim);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.04em;
+  opacity: 0.6;
 }
 
 /* Nav */
@@ -1019,6 +1027,13 @@ body {
   text-transform: uppercase;
 }
 
+.overlay__subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .progress-bar {
   width: 260px;
   height: 4px;
@@ -1082,6 +1097,10 @@ body {
   }
 
   .topbar__title {
+    display: none;
+  }
+
+  .topbar__chassis {
     display: none;
   }
 

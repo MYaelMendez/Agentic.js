@@ -1,5 +1,7 @@
 /**
- * æ>_ WRANGLERBASE v7.5 — Application logic
+ * æ:// WRANGLERBASE v7.5 — Application logic
+ *
+ * Part of the æ:// agentic-language-chassis.
  *
  * Architecture:
  *  - Module-scoped state (no globals)
@@ -13,11 +15,11 @@
 // ---------------------------------------------------------------------------
 
 const BOOT_STEPS = [
-  'Initialising runtime…',
-  'Loading agent registry…',
-  'Connecting telemetry bus…',
-  'Calibrating metrics…',
-  'Spawning worker pool…',
+  'Initialising æ:// chassis runtime…',
+  'Mounting language agent registry…',
+  'Binding telemetry bus…',
+  'Calibrating inference metrics…',
+  'Spawning language worker pool…',
   'Ready.',
 ];
 
@@ -26,16 +28,18 @@ const BOOT_DURATION_MS = 2400;
 const FEED_LEVELS = ['INFO', 'INFO', 'INFO', 'WARN', 'DEBUG', 'ERROR'];
 
 const FEED_MESSAGES = [
-  'Agent agt-{id} dispatched task #{task}',
-  'Checkpoint reached at pipeline stage {stage}',
+  'Agent agt-{id} dispatched language task #{task}',
+  'Chassis pipeline reached stage {stage}',
   'Model inference completed in {ms}ms',
   'Cache miss — fetching remote tensor shard',
   'Retrying failed subtask (attempt {n}/3)',
   'Worker {id} heartbeat OK',
   'Token budget threshold reached ({pct}%)',
-  'Batch size auto-adjusted to {n}',
-  'Connection to shard {id} established',
+  'Chassis routing layer dispatched batch of {n}',
+  'æ:// protocol handshake with shard {id} established',
   'GC cycle completed; freed {mb}MB',
+  'Language model context window at {pct}%',
+  'Agent agt-{id} completed {task} and returned result',
 ];
 
 const AGENT_STATUSES = ['ACTIVE', 'ACTIVE', 'ACTIVE', 'IDLE', 'ERROR'];
@@ -47,6 +51,9 @@ const AGENT_TASKS = [
   'rerank',
   'generate',
   'extract',
+  'infer',
+  'tokenise',
+  'route',
 ];
 
 // ---------------------------------------------------------------------------
@@ -502,25 +509,25 @@ function initFeedControls() {
 
 const COMMANDS = {
   help: () => [
-    'Available commands:',
+    'æ:// agentic-language-chassis — available commands:',
     '  help       — show this message',
-    '  status     — print system status',
-    '  agents     — list active agents',
+    '  status     — print chassis status',
+    '  agents     — list active language agents',
     '  clear      — clear terminal output',
-    '  version    — show version string',
+    '  version    — show chassis version string',
     '  echo <…>   — echo arguments',
     '  share      — open Share with Agent dialog',
   ].join('\n'),
 
   status: () =>
-    `System: ONLINE | Agents: ${state.agents.length} | Feed events: ${state.feedCount}`,
+    `æ:// chassis: ONLINE | Language agents: ${state.agents.length} | Feed events: ${state.feedCount}`,
 
   agents: () => {
     if (!state.agents.length) return 'No agents registered.';
     return state.agents.map((a) => `  ${a.id}  ${a.status.padEnd(6)}  ${a.task}`).join('\n');
   },
 
-  version: () => 'æ>_ WRANGLERBASE v7.5 — ægentic.js',
+  version: () => 'æ:// agentic-language-chassis — WRANGLERBASE v7.5',
 
   echo: (args) => args.join(' ') || '(empty)',
 
@@ -540,7 +547,7 @@ function initTerminal() {
     if (!raw) return;
 
     dom.terminalInput.value = '';
-    appendTerminalLine(`æ>_ ${raw}`, 'cmd');
+    appendTerminalLine(`æ:// ${raw}`, 'cmd');
 
     const [cmd, ...args] = raw.split(/\s+/);
     const handler = COMMANDS[cmd.toLowerCase()];

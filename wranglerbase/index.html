@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="æ>_ WRANGLERBASE v7.5 — interactive system dashboard for ægentic.js" />
+    <meta name="description" content="æ:// WRANGLERBASE v7.5 — front-end interface for the æ:// agentic-language-chassis" />
     <meta name="theme-color" content="#0a0a0f" />
-    <title>æ&gt;_ WRANGLERBASE v7.5</title>
+    <title>æ:// WRANGLERBASE v7.5 — agentic-language-chassis</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -16,13 +16,14 @@
     <div class="bg-grid" aria-hidden="true"></div>
     <div class="scan-line" aria-hidden="true"></div>
 
-    <div class="shell" role="application" aria-label="WRANGLERBASE v7.5 shell">
+    <div class="shell" role="application" aria-label="æ:// agentic-language-chassis — WRANGLERBASE v7.5">
       <!-- Header bar -->
       <header class="topbar" role="banner">
         <div class="topbar__brand" aria-label="Application name">
-          <span class="topbar__sigil" aria-hidden="true">æ&gt;_</span>
+          <span class="topbar__sigil" aria-hidden="true">æ://</span>
           <span class="topbar__title">WRANGLERBASE</span>
           <span class="topbar__version">v7.5</span>
+          <span class="topbar__chassis" aria-hidden="true">agentic-language-chassis</span>
         </div>
 
         <nav class="topbar__nav" aria-label="Primary navigation">
@@ -297,10 +298,10 @@
         >
           <div class="terminal" role="region" aria-label="Terminal emulator">
             <div id="terminal-output" class="terminal__output" aria-live="polite" aria-relevant="additions" role="log">
-              <p class="terminal__line terminal__line--info">æ&gt;_ WRANGLERBASE v7.5 terminal ready. Type <kbd>help</kbd> for commands.</p>
+              <p class="terminal__line terminal__line--info">æ:// agentic-language-chassis — WRANGLERBASE v7.5 terminal ready. Type <kbd>help</kbd> for commands.</p>
             </div>
             <form class="terminal__input-row" id="terminal-form" aria-label="Terminal command input">
-              <label for="terminal-input" class="terminal__prompt" aria-hidden="true">æ&gt;_</label>
+              <label for="terminal-input" class="terminal__prompt" aria-hidden="true">æ://</label>
               <input
                 id="terminal-input"
                 class="terminal__input"
@@ -322,7 +323,7 @@
       <footer class="statusbar" role="contentinfo">
         <span class="statusbar__item" id="footer-time" aria-label="Current time" aria-live="polite"></span>
         <span class="statusbar__sep" aria-hidden="true">|</span>
-        <span class="statusbar__item">ægentic.js</span>
+        <span class="statusbar__item">agentic-language-chassis</span>
         <span class="statusbar__sep" aria-hidden="true">|</span>
         <span class="statusbar__item" id="footer-build" aria-label="Build version">build <time datetime="2026-03-22">2026-03-22</time></span>
         <span class="statusbar__sep" aria-hidden="true">|</span>
@@ -337,10 +338,11 @@
     </div>
 
     <!-- Overlay: loading screen -->
-    <dialog class="overlay overlay--boot" id="boot-overlay" aria-label="Booting WRANGLERBASE">
+    <dialog class="overlay overlay--boot" id="boot-overlay" aria-label="Booting æ:// agentic-language-chassis">
       <div class="overlay__content">
-        <p class="overlay__logo" aria-hidden="true">æ&gt;_</p>
-        <p class="overlay__title">WRANGLERBASE v7.5</p>
+        <p class="overlay__logo" aria-hidden="true">æ://</p>
+        <p class="overlay__title">agentic-language-chassis</p>
+        <p class="overlay__subtitle" aria-hidden="true">WRANGLERBASE v7.5</p>
         <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Boot progress" id="boot-progress-bar">
           <div class="progress-bar__fill" id="boot-progress-fill"></div>
         </div>
