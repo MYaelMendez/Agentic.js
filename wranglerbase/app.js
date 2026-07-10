@@ -339,7 +339,7 @@ function drawChart() {
   const accent = getComputedStyle(document.documentElement)
     .getPropertyValue('--color-accent')
     .trim() || '#8b6fc2';
-  const æColor = getComputedStyle(document.documentElement)
+  const aeColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--color-æ')
     .trim() || '#00e5b0';
 
@@ -350,7 +350,7 @@ function drawChart() {
 
     // Gradient fill: scalar teal at peak → accent purple at base
     const grad = ctx.createLinearGradient(x, y, x, height);
-    grad.addColorStop(0, æColor);
+    grad.addColorStop(0, aeColor);
     grad.addColorStop(1, accent);
     ctx.fillStyle = grad;
     ctx.fillRect(x, y, barW, barH);
