@@ -379,7 +379,7 @@ function setGauge(fillEl, valEl, meterEl, pct, baseColor) {
   } else if (pct > 65) {
     fillEl.style.stroke = 'var(--color-accent-3)';
   } else {
-    fillEl.style.stroke = baseColor ?? 'var(--color-accent-2)';
+    fillEl.style.stroke = baseColor ?? 'var(--color-æ)';
   }
 
   valEl.textContent = `${Math.round(pct)}%`;
